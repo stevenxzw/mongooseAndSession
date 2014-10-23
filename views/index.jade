@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  div.a
+  div "session:"#{session}
+  script setTimeout(function(){var end = +new Date - parseInt(#{st});console.log(end/1000);window.location.reload()}, 100000);
