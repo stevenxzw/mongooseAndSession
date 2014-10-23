@@ -33,7 +33,7 @@
 			console.log('-----:');
             res.render('index', {
 				title : 'session',
-				session : req.session.user
+				session : ''
 			});
         }]
     }

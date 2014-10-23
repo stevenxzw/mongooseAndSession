@@ -29,8 +29,10 @@
         },
 
         readSession : function(req, res, next) {
-            session.getReqCookie(req);
-            res.setHeader("Set-Cookie", ["sid="+_util.toCookie(req)+";path=/;domain="+config.domain+";expires="+new Date("2030") ]);
+            console.log(session.hasCookie(req));
+            session.setSession(req, res, 'test');
+            //session.getReqCookie(req);
+            //res.setHeader("Set-Cookie", ["sid="+_util.toCookie(req)+";path=/;domain="+config.domain+";expires="+new Date("2030") ]);
 
             next();
         }

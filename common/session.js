@@ -13,11 +13,15 @@
         //基本配置
         config : {
             //回收会话时间
-            gcTime : 1000*60 *15,
+            gcTime : 1000*60 *2,
             //心跳保持时间
             hbTime : 1000*2,
+
+            cookieGc : 1000*60 *5,
             //每个会话消息保存长度
             msgMaxLength : 50,
+
+            cookiename : 'sid',
 
             //保存位置
             saveIndb : false
@@ -27,30 +31,66 @@
         _data : {},
         /** 会话基本操作 ***/
 
-
+        //获取请求cookie
         getReqCookie : function(req){
 
             var _cookie = {}, cookies =  req.headers.cookie;
+            if(!cookies) return {};
             cookies.split(';').forEach(function (c) {
                 var pair = c.split('=');
                 _cookie[pair[0].trim()] = [pair[1].trim(), {}];
             });
-            console.log(_cookie);
+            return _cookie;
         },
+
+        hasCookie : function(req){
+            var cookie = this.getReqCookie(req), sid;
+            if(sid = cookie[this.config.cookiename]){
+                return this.getSession(sid);
+            }else{
+                return false;
+            }
+        },
+
+        setSession : function(req, res, username){
+            var cookie = this.hasCookie(req);
+            if(!cookie && username){
+                var sid = this.createSession(req);
+                cookie = this._data[sid] = this.sessionContent(sid, username);
+            }else{
+                cookie.gcTime = (+new Date) + this.config.gcTime;
+            }
+            res.setHeader("Set-Cookie", ['sid='+cookie.sid+ ';expires='+cookie.cookieGc]); //注意：多个cookie需要
+        },
+
         //查找会话
         getSession : function(sid){
-            var cookie;
-            if(cookie){
+            return this._data[sid];
+        },
+        //创建会话
+        createSession : function(req){
+            var ip = util.getUserIP(req),
+                time = (new Date()).getTime() + '',
+                sid = ip+'_'+(new Date().getTime()) + '_' + (Math.round(Math.random() * 1000));
+            return sid;
+        },
+
+        sessionContent : function(sid, username){
+
+            return {
+
+                gcTime : (+new Date) + this.config.gcTime,
+
+                sid : sid,
+
+                cookieGc : (+new Date) + this.config.cookieGc,
+
+                username : username
 
             }
 
         },
-        //创建会话
-        createSession : function(req){
-            var ip = util.getUserIP(req);
-            var time = (new Date()).getTime() + '';
-            var id = ip+'_'+(new Date().getTime()) + '_' + (Math.round(Math.random() * 1000));
-        },
+
         //替换会话
         replaceSession : function(source,target){},
         //销毁会话
@@ -62,13 +102,30 @@
         //初始化会话回收处理器
         initSessionGCProcessor : function(){},
         //初始化会话心跳检测处理器
-        intiSessionHeartbeatProcessor : function(){},
+        intiSessionHeartbeatProcessor : function(){
+            var that = this;
+            setInterval(function(){
+                var now = +new Date, j = 0 ;
+                for(var k in that._data){
+                    var item = that._data[k];
+                    if(item.gcTime < now){
+                        delete that._data[k];
+                    }
+                    j++;
+                }
+                if(j){
+                    console.log(now+'---------------:');
+                    console.log(that._data);
+                }
+            }, this.config.hbTime)
+        },
         //推送消息处理器
         pushMessageProcessor : function(id){},
 
         init : function(){
             //console.log(conn.db);
             //console.log(this);
+            this.intiSessionHeartbeatProcessor();
         }
 
         /*
