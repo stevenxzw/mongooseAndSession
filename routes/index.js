@@ -19,11 +19,12 @@
 			//req.session.user = 'session:'+(+new Date);
 			//req.session.nameArr = (+new Date);
 			//res.cookie('count', req.session.user);
-			res.send(req.session.user);
+            var cookie = sessionObj.setSession(req, res, 'test');
+			res.send(cookie.sid);
 			
 		},
 		'/getsession' : function(req, res){
-			res.send(req.session.user);
+			res.send('session');
 		},
         '/test' :[false, function(req, res){
            res.send('<div>test</div>');
@@ -45,6 +46,11 @@
         },
 
         globalRoute : function(eapp){
+
+            eapp.use(function (req, res, next) {
+                sessionObj.resetsession(req, res);
+                next();
+            })
             sessionObj.init();
             var isFilter = true;
             for(var rot in routes){
@@ -53,7 +59,7 @@
                     eapp.get(rot, filter.authorize, item[1]);
                     eapp.post(rot, filter.authorize, item[1]);
                 }else{
-                    eapp.get(rot, filter.readSession, type === 'array' ? item[1] : item);
+                    eapp.get(rot, type === 'array' ? item[1] : item);
                     eapp.post(rot, type === 'array' ? item[1] : item);
                 }
             }
