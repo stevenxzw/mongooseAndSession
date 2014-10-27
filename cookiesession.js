@@ -4,6 +4,7 @@ var session = require('express-session')
 var app = express()
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())
+
 app.use(session({secret: 'keyboard cat',
     key : 'mycookie',
 	cookie: {path: '/', maxAge: 1000*60*2, rolling : true  }
@@ -18,6 +19,18 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.get('/c', function (req, res) {
+    // 如果请求中的 cookie 存在 isVisit, 则输出 cookie
+    // 否则，设置 cookie 字段 isVisit, 并设置过期时间为1分钟
+    if (req.cookies.isVisit) {
+        console.log(req.cookies);
+        res.send("再次欢迎访问");
+    } else {
+        res.cookie('isVisit', 1, {maxAge: 60 * 1000 * 3});
+        res.send("欢迎第一次访问");
+    }
+});
+/*
 			app.get('/g', function (req, res, next) {
 				req.session.login = 1;
                 req.session['resetSession'] = +new Date;
@@ -47,6 +60,6 @@ app.use(function (req, res, next) {
 				res.send("/get:"+req.session.login);
 				//next();
 			});
-			
+*/
 
 app.listen(3000)
