@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "s1": "npm link express jade connect-redis body-parser cookie-parser serve-favicon debug morgan connect session-mongoose serve-static mongoose"
+    "s1": "npm link express jade connect-redis body-parser cookie-parser serve-favicon debug morgan connect session-mongoose serve-static mongoose cookie-session express-session"
   },
   "dependencies": {
     "express": "~4.9.0",

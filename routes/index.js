@@ -9,33 +9,47 @@
 		_util = require('./../common/util').util,
         impl = require('./../common/mongoImpl').Impl,
 		conn = require('./../common/conn'),
-        sessionObj = require('./../common/session').sessoin;
+        sessionObj = require('./../common/session').sessoin,
+        mongoose = require('./../common/mongoose');
 
 
 
 
     var routes = {
 		'/setsession' : function(req, res){
-			//req.session.user = 'session:'+(+new Date);
-			//req.session.nameArr = (+new Date);
-			//res.cookie('count', req.session.user);
-			res.send(req.session.user);
-			
+            var cookie = sessionObj.setSession(req, res, 'test');
+			res.send(cookie.sid);
 		},
 		'/getsession' : function(req, res){
-			res.send(req.session.user);
+			res.send('session');
 		},
         '/test' :[false, function(req, res){
            res.send('<div>test</div>');
         }],
 		
 		'/' : [false, function(req, res){
-			console.log('-----:');
-            res.render('index', {
-				title : 'session',
-				session : ''
-			});
-        }]
+            var PersonModel = conn.db.model('Person',mongoose.person);
+            var personEntity = new PersonModel({name:'Krouky:'+(+new Date), 'age':12});
+            personEntity.save(function(){
+
+                res.render('index', {
+                    title : 'session',
+                    session : personEntity.speak()
+                });
+            });
+        }],
+
+        '/find' : function(req, res){
+            //mongoose.person.methos.speak = function(){};
+            var PersonModel = conn.db.model('Person',mongoose.person);
+            PersonModel.find(function (err, docs) {
+                console.log(docs);
+
+                res.send('session');
+            });
+        }
+
+
     }
 
     var fn = {
@@ -45,6 +59,11 @@
         },
 
         globalRoute : function(eapp){
+
+            eapp.use(function (req, res, next) {
+                sessionObj.resetsession(req, res);
+                next();
+            })
             sessionObj.init();
             var isFilter = true;
             for(var rot in routes){
@@ -53,7 +72,7 @@
                     eapp.get(rot, filter.authorize, item[1]);
                     eapp.post(rot, filter.authorize, item[1]);
                 }else{
-                    eapp.get(rot, filter.readSession, type === 'array' ? item[1] : item);
+                    eapp.get(rot, type === 'array' ? item[1] : item);
                     eapp.post(rot, type === 'array' ? item[1] : item);
                 }
             }

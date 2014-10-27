@@ -38,7 +38,7 @@
             if(!cookies) return {};
             cookies.split(';').forEach(function (c) {
                 var pair = c.split('=');
-                _cookie[pair[0].trim()] = [pair[1].trim(), {}];
+                _cookie[pair[0].trim()] = [pair[1].trim()];
             });
             return _cookie;
         },
@@ -52,6 +52,20 @@
             }
         },
 
+        resetsession : function(req, res){
+            var cookie = this.hasCookie(req);
+            if(cookie){
+                cookie.gcTime = (+new Date) + this.config.gcTime;
+                console.log('resetSession');
+                this.setHeader(res, cookie);
+            }
+
+        },
+
+        setHeader : function(res, cookie){
+            res.setHeader("Set-Cookie", ['sid='+cookie.sid+ ';expires='+cookie.cookieGc, 'test=1']); //注意：多个cookie需要
+        },
+
         setSession : function(req, res, username){
             var cookie = this.hasCookie(req);
             if(!cookie && username){
@@ -60,7 +74,9 @@
             }else{
                 cookie.gcTime = (+new Date) + this.config.gcTime;
             }
-            res.setHeader("Set-Cookie", ['sid='+cookie.sid+ ';expires='+cookie.cookieGc]); //注意：多个cookie需要
+            this.setHeader(res, cookie);
+            return cookie;
+            //res.setHeader("Set-Cookie", ['sid='+cookie.sid+ ';expires='+cookie.cookieGc, 'test=1']); //注意：多个cookie需要
         },
 
         //查找会话
@@ -83,7 +99,7 @@
 
                 sid : sid,
 
-                cookieGc : (+new Date) + this.config.cookieGc,
+                cookieGc : new Date((+new Date) + this.config.cookieGc),
 
                 username : username
 
