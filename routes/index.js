@@ -10,6 +10,7 @@
         impl = require('./../common/mongoImpl').Impl,
 		conn = require('./../common/conn'),
         sessionObj = require('./../common/session').sessoin,
+        mongo = require('mongoose'),
         mongoose = require('./../common/mongoose');
 
 
@@ -24,6 +25,13 @@
 			res.send('session');
 		},
         '/test' :[false, function(req, res){
+            var Cat = mongo.model('Cat', { name: String , test:Number});
+
+            var kitty = new Cat({ name: 'Zildjian','tset':1 });
+            kitty.save(function (err) {
+                if (err) // ...
+                    console.log('meow');
+            });
            res.send('<div>test</div>');
         }],
 		
@@ -34,7 +42,7 @@
 
                 res.render('index', {
                     title : 'session',
-                    session : personEntity.speak()
+                    session : personEntity.name
                 });
             });
         }],

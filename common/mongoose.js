@@ -8,7 +8,8 @@
         Schema = mongoose.Schema;
 
     var PersonSchema = new Schema({
-        name:String   //定义一个属性name，类型为String
+        name:String,   //定义一个属性name，类型为String
+        age : Number
     });
 
 
