@@ -36,6 +36,7 @@
 		
 		'/' : [false, function(req, res){
             var PersonModel = conn.db.model('Person',mongoose.person);
+            //http://www.oschina.net/code/snippet_698737_17103
             PersonModel.findByName('krouky',function(err,persons){
                 console.log(persons);
                 res.render('index', {
