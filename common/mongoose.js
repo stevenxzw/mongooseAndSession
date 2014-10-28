@@ -9,9 +9,17 @@
 
     var PersonSchema = new Schema({
         name:String,   //定义一个属性name，类型为String
-        age : Number
+        age : Number,
+        attr : {}
     });
 
+    PersonSchema.methods.speak = function(){
+        console.log(this.name);
+    };
+
+    PersonSchema.statics.findByName = function(name,cb){
+        this.find({name:new RegExp(name,'i')},cb);
+    }
 
 
     var BlogSchema = new Schema({

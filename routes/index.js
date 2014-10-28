@@ -26,7 +26,6 @@
 		},
         '/test' :[false, function(req, res){
             var Cat = mongo.model('Cat', { name: String , test:Number});
-
             var kitty = new Cat({ name: 'Zildjian','tset':1 });
             kitty.save(function (err) {
                 if (err) // ...
@@ -37,7 +36,19 @@
 		
 		'/' : [false, function(req, res){
             var PersonModel = conn.db.model('Person',mongoose.person);
-            var personEntity = new PersonModel({name:'Krouky:'+(+new Date), 'age':12});
+            PersonModel.findByName('krouky',function(err,persons){
+                console.log(persons);
+                res.render('index', {
+                    title : 'session',
+                    session : persons
+                });
+                //找到所有名字叫krouky的人
+            });
+            return;
+
+            var personEntity = new PersonModel({name:'Krouky:'+(+new Date), 'age':12, attr : {h :100, w:134}});
+
+            personEntity.speak();
             personEntity.save(function(){
 
                 res.render('index', {
