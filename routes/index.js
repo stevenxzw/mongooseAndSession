@@ -11,6 +11,7 @@
 		conn = require('./../common/conn'),
         sessionObj = require('./../common/session').sessoin,
         mongo = require('mongoose'),
+        commonDao = require('./../Dao/commonDao'),
         mongoose = require('./../common/mongoose');
 
 
@@ -36,6 +37,36 @@
 		
 		'/' : [false, function(req, res){
             var PersonModel = conn.db.model('Person',mongoose.person);
+            var persons = new commonDao(PersonModel);
+            persons.countByQuery({'name':RegExp(req.query.n)}, function(err, rs){
+                res.render('index', {
+                    title : 'session',
+                    session : rs
+                });
+                //persons.getAll(function(err, rs){
+                //res.send(rs);
+                //})
+
+            });
+            //res.send(req.query.n);
+            return
+            persons.create({name:'Krouky:'+(+new Date), 'age':12, attr : {h :100, w:134}}, function(err){
+                if(!err){
+                    persons.countByQuery({'name':'^K' }, function(err, rs){
+                        res.render('index', {
+                            title : 'session',
+                            session : rs
+                        });
+                        //persons.getAll(function(err, rs){
+                            //res.send(rs);
+                        //})
+
+                    });
+
+                }
+            });
+
+            return;
             //http://www.oschina.net/code/snippet_698737_17103
             PersonModel.findByName('krouky',function(err,persons){
                 console.log(persons);
@@ -46,12 +77,10 @@
                 //找到所有名字叫krouky的人
             });
             return;
-
             var personEntity = new PersonModel({name:'Krouky:'+(+new Date), 'age':12, attr : {h :100, w:134}});
 
             personEntity.speak();
             personEntity.save(function(){
-
                 res.render('index', {
                     title : 'session',
                     session : personEntity.name
@@ -67,6 +96,15 @@
 
                 res.send('session');
             });
+        },
+
+        '/query' : function(req, res){
+            var PersonModel = conn.db.model('Person',mongoose.person);
+            var persons = new commonDao(PersonModel);
+            persons.getByQuery({'age':{"$gte":13} },'', '', function(err, rs){
+                console.log(rs);
+                res.send(rs);
+            })
         }
 
 
