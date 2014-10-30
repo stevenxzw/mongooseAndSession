@@ -36,6 +36,10 @@
         }],
 		
 		'/' : [false, function(req, res){
+            res.render('index', {
+                title : 'angularjs'
+            });
+            return;
             var PersonModel = conn.db.model('Person',mongoose.person);
             var persons = new commonDao(PersonModel);
             persons.countByQuery({'name':RegExp(req.query.n)}, function(err, rs){
