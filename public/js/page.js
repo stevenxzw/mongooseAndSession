@@ -17,7 +17,7 @@
             $scope.updated = '222222222222';
             setTimeout(function(){
                 $scope.updated = '1111111111';
-                $scope.$digest(function(){
+                $scope.$apply(function(){
                     console.log(arguments)
                 });
             },2000);
@@ -26,16 +26,5 @@
 
     });
 
-    window.copyToClipboard = function(txt){
-        txt = '---';
-        if (window.clipboardData) {
-            window.clipboardData.clearData();
-            clipboardData.setData("Text", txt);
-            alert("复制成功！---");
-
-        }else{
-            window.prompt("请Ctrl+C, Enter", txt);
-        }
-    }
 
 })(angular)

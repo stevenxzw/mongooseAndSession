@@ -11,6 +11,7 @@
 		conn = require('./../common/conn'),
         sessionObj = require('./../common/session').sessoin,
         mongo = require('mongoose'),
+        config = require('./../config/config');
         commonDao = require('./../Dao/commonDao'),
         mongoose = require('./../common/mongoose');
 
@@ -109,6 +110,30 @@
                 console.log(rs);
                 res.send(rs);
             })
+        },
+
+        /*-------------------管理后台-------------------------------*/
+        '/admin' : [false, function(req, res){
+            var items  = _util.extend(config.config.adminOpt.items);
+            console.log(items);
+            items[0].cls = 'active';
+            res.render('admin', {
+                title : 'Admin',
+                items : items
+            });
+        }],
+
+        '/admin/users' : [false, function(req, res){
+            var items  = _util.extend(config.config.adminOpt.items);
+            console.log(items);
+            items[1].cls = 'active';
+            res.render('admin', {
+                title : 'Admin',
+                items : items
+            });
+        }],
+        '/from' : function(req, res){
+            console.log(req);
         }
 
 

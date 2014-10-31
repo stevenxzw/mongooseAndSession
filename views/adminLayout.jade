@@ -1,0 +1,18 @@
+doctype html
+html(ng-app="app")
+  head
+    include header
+    append header
+  body
+    nav(class="navbar navbar-inverse navbar-fixed-top")
+      div(class="container")
+        div(class="navbar-header")
+          button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9")
+          a(href="#" class="navbar-brand") 管理后台
+        div(class="collapse navbar-collapse")
+          ul(class="nav navbar-nav")
+              each item in items
+                li(class="#{item.cls}")
+                  a(href="#{item.uri}") #{item.name}
+
+    block content

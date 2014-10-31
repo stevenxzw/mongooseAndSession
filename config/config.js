@@ -8,6 +8,20 @@ exports.config = {
 
     domain: '*',
 
-    db : 'rms'
+    db : 'rms',
+
+
+    adminOpt : {
+
+        items : [{
+            cls :'',
+            name : 'Home',
+            uri : '/admin'
+        },{
+            cls :'',
+            name : 'User',
+            uri : '/admin/users'
+        }]
+    }
 
 }
