@@ -6,7 +6,17 @@
     var app = ang.module('app', [], function($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
-    });
+    }).filter('vNull', function(){
+            return function(v) {
+                if(v === '') return '-';
+                if(v === undefined) return 0;
+                return v;
+            };
+        }).filter('toTime', function(){
+            return function(v){
+                return util.timeToDate(v);
+            }
+        });
 
     app.controller('MainCtrl', function($scope) {
 
@@ -24,7 +34,13 @@
             $scope.updated = '333333333333';
         }
 
-    });
+    }).controller('usersControl', function($scope, $http) {
+        $scope.users = {};
+        $http.get('/Api/users').success(function(r){
+            $scope.users = r;
+        });
+
+        });
 
 
 })(angular)

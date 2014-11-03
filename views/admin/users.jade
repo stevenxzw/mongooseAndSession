@@ -1,0 +1,26 @@
+extends ../Adminlayout
+
+block content
+  div(class="container")
+    div(class="contentpad")
+      div(class="panel panel-info" ng-controller="usersControl")
+        div(class="panel-heading")
+          h3(class="panel-title") 用户列表
+        div(class="panel-body")
+            div(class="list-group"  selector="div" ngd-click="itemClick($event)")
+              div(class="list-group-item")
+                div #index
+                div name
+                div id
+                div 注册时间
+                div 登录次数
+                div 操作
+              div(ng-repeat="user in users" class="list-group-item" rel="uid:<% user.uid%>,ln:<% user.likename%>")
+                div <%$index+1%>
+                div <% user.name|vNull%>
+                div <% user.id%>
+                div <% user.createTime| date : 'yyyy-MM-dd'%>
+                div <% user.loginTimes|vNull%>
+                div(class="car-change")
+                  a(href="#" rel="e:edit" class="edit") 修改
+                  a(href="#" rel="e:del" class="edit") 删除

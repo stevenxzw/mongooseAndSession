@@ -58,6 +58,19 @@ CommonDao.prototype.getByQuery = function (query,fileds,opt,callback) {
 };
 
 /**
+ * 根据查询条件获取Model
+ */
+CommonDao.prototype.getByQueryOfPage = function (query,fileds,opt,callback) {
+
+    //.limit(pageSize).skip((page-1)*pageSize)
+    this.model.find(query, fileds, opt, function(error,model){
+        if(error) return callback(error,null);
+
+        return callback(null,model);
+    });
+};
+
+/**
  * 获取所有Model
  */
 CommonDao.prototype.getAll = function (callback) {

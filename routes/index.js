@@ -37,13 +37,9 @@
         }],
 		
 		'/' : [false, function(req, res){
-            res.render('index', {
-                title : 'angularjs'
-            });
-            return;
-            var PersonModel = conn.db.model('Person',mongoose.person);
-            var persons = new commonDao(PersonModel);
-            persons.countByQuery({'name':RegExp(req.query.n)}, function(err, rs){
+            var persons = mongoose.getDao('person');
+            persons.getByQuery('',{'name':'','age':''},{limit:5,skip:8}, function(err, rs){
+                console.log(rs);
                 res.render('index', {
                     title : 'session',
                     session : rs
@@ -114,8 +110,7 @@
 
         /*-------------------管理后台-------------------------------*/
         '/admin' : [false, function(req, res){
-            var items  = _util.extend(config.config.adminOpt.items);
-            console.log(items);
+            var items = config.config.adminOpt.getItem();
             items[0].cls = 'active';
             res.render('admin', {
                 title : 'Admin',
@@ -123,18 +118,55 @@
             });
         }],
 
+        '/admin/addusers' : [false, function(req, res){
+            var users = mongoose.getDao('users');
+
+            users.create({id:2,name :4}, function(){
+
+
+            })
+        }],
+
         '/admin/users' : [false, function(req, res){
-            var items  = _util.extend(config.config.adminOpt.items);
-            console.log(items);
+            console.time("t");
+            var items = config.config.adminOpt.getItem();
             items[1].cls = 'active';
+            console.timeEnd("t");
+
+            var users = mongoose.getDao('users');
+            res.render('admin/users', {
+                title : 'User',
+                items : items,
+                action : 'admin/users'
+            });
+        }],
+
+        '/admin/charRoom' : [false, function(req, res){
+            console.time("t");
+            var items = config.config.adminOpt.getItem();
+            items[2].cls = 'active';
+            console.timeEnd("t");
             res.render('admin', {
                 title : 'Admin',
                 items : items
             });
         }],
+
+
         '/from' : function(req, res){
             console.log(req);
-        }
+        },
+
+        '/Api/users' : [false, function(req, res){
+            var users = mongoose.getDao('users');
+
+            users.getByQuery({},'',{limit:5,skip:0}, function(err, rs){
+
+                res.send(rs);
+
+            });
+
+        }]
 
 
     }
