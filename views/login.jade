@@ -1,0 +1,18 @@
+extends layout
+block content
+  div.container
+    div(ng-controller='loginControl')
+        form.form-horizontal(ng-init='user={username:"admin",pwd:"123456"}')
+            h2.form-signin-heading 管理员登录
+            .form-group
+                input#username.form-control(type='text', ng-model='user.username', value='admin', placeholder='username', required='', autofocus='')
+            .form-group
+                input.form-control(type='password', ng-model='user.pwd', value='123456', placeholder='Password', required='')
+            .form-group
+                label.checkbox
+                    input(type='checkbox', value='remember-me', ng-model='user.remember')
+                    | Remember me
+                label
+                    | <%msg%>
+            .form-group
+                button.btn.btn-lg.btn-primary.btn-block(type='submit', ng-click='login(user)') Sign in

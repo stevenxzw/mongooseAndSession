@@ -108,13 +108,21 @@
             })
         },
 
+        /*-------------------前台-------------------------------*/
+        '/login' : [false, function(req, res){
+            res.render('login', {
+                title : 'Login',
+                action : '/Login'
+            });
+        }],
+
         /*-------------------管理后台-------------------------------*/
         '/admin' : [false, function(req, res){
             var items = config.config.adminOpt.getItem();
             items[0].cls = 'active';
             res.render('admin', {
                 title : 'Admin',
-                items : items
+                action : 'admin'
             });
         }],
 
@@ -158,6 +166,22 @@
         },
 
         '/Api/users' : [false, function(req, res){
+            var users = mongoose.getDao('users');
+
+            users.getByQuery({},'',{limit:5,skip:0}, function(err, rs){
+
+                res.send(rs);
+
+            });
+
+        }],
+
+        '/Api/login' : [false, function(req, res){
+            var param = _util.getHttpRequestParams(req);
+
+            console.log(param);
+            res.json(200, param);
+            return;
             var users = mongoose.getDao('users');
 
             users.getByQuery({},'',{limit:5,skip:0}, function(err, rs){

@@ -40,7 +40,24 @@
             $scope.users = r;
         });
 
-        });
+        })
+        .controller('loginControl', function($scope, $http) {
+            $scope.user = {
+                username : '',
+                pwd : '',
+                remember: true
+            };
+            $scope.login = function(u){
+                if(u.username && u.pwd){
+                    $http.post('/Api/login', u).success(function(r){
+                        $scope.users = r;
+                    });
+
+                }
+                console.log(u);
+            }
+
+        })
 
 
 })(angular)
