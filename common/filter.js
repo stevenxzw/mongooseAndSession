@@ -12,7 +12,7 @@
 
         authorize : function(req, res, next) {
             if (!req.session.user_id && req.url.indexOf('admin/login') ==-1) {
-                res.redirect('/admin/login');
+                res.redirect('/login');
             } else {
                 next();
             }
@@ -21,7 +21,7 @@
 
         templateFilter : function(req, res, next) {
             if (!req.session.user_id && req.url.indexOf('admin/login') ==-1) {
-                res.redirect('/admin/login');
+                res.redirect('/login');
             } else {
                 next();
             }

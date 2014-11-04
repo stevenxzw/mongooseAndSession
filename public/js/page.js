@@ -50,7 +50,11 @@
             $scope.login = function(u){
                 if(u.username && u.pwd){
                     $http.post('/Api/login', u).success(function(r){
+                        if(r.err === 0){
+                            location.href = '/room';
+                        }
                         $scope.users = r;
+
                     });
 
                 }

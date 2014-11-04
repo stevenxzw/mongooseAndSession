@@ -7,7 +7,7 @@
     var _debug = global._debug ,
 		filter = require('./../common/filter').filter,
 		_util = require('./../common/util').util,
-        impl = require('./../common/mongoImpl').Impl,
+        impl = require('./../common/impl').Impl,
 		conn = require('./../common/conn'),
         sessionObj = require('./../common/session').sessoin,
         mongo = require('mongoose'),
@@ -19,9 +19,8 @@
 
 
     var routes = {
-		'/setsession' : function(req, res){
-            var cookie = sessionObj.setSession(req, res, 'test');
-			res.send(cookie.sid);
+		'/initDataBase' : function(req, res){
+            mongoose.dropAllTable();
 		},
 		'/getsession' : function(req, res){
 			res.send('session');
@@ -178,19 +177,26 @@
 
         '/Api/login' : [false, function(req, res){
             var param = _util.getHttpRequestParams(req);
+            if(!param.username  || !param.pwd){
+                res.json(_util.resultCollection("请填写帐号密码",'10001'));
+            }else{
+                impl.login(req, res);
+            }
 
-            console.log(param);
-            res.json(200, param);
-            return;
-            var users = mongoose.getDao('users');
+        }],
 
-            users.getByQuery({},'',{limit:5,skip:0}, function(err, rs){
+        '/room' : [true, function(req, res){
+            var charRoom = mongoose.getDao('charRoom');
 
-                res.send(rs);
+            charRoom.getByQuery({},'','', function(err, rs){
+                console.log(rs);
+                res.render('room', {
+                    title : 'Room'
+                });
 
             });
 
-        }]
+    }]
 
 
     }
