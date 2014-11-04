@@ -20,8 +20,12 @@
 
     var routes = {
 		'/initDataBase' : function(req, res){
-            mongoose.dropAllTable();
+            mongoose.init(function(){
+
+                res.send('init DB success! ');
+            });
 		},
+
 		'/getsession' : function(req, res){
 			res.send('session');
 		},
@@ -47,44 +51,6 @@
                 //res.send(rs);
                 //})
 
-            });
-            //res.send(req.query.n);
-            return
-            persons.create({name:'Krouky:'+(+new Date), 'age':12, attr : {h :100, w:134}}, function(err){
-                if(!err){
-                    persons.countByQuery({'name':'^K' }, function(err, rs){
-                        res.render('index', {
-                            title : 'session',
-                            session : rs
-                        });
-                        //persons.getAll(function(err, rs){
-                            //res.send(rs);
-                        //})
-
-                    });
-
-                }
-            });
-
-            return;
-            //http://www.oschina.net/code/snippet_698737_17103
-            PersonModel.findByName('krouky',function(err,persons){
-                console.log(persons);
-                res.render('index', {
-                    title : 'session',
-                    session : persons
-                });
-                //找到所有名字叫krouky的人
-            });
-            return;
-            var personEntity = new PersonModel({name:'Krouky:'+(+new Date), 'age':12, attr : {h :100, w:134}});
-
-            personEntity.speak();
-            personEntity.save(function(){
-                res.render('index', {
-                    title : 'session',
-                    session : personEntity.name
-                });
             });
         }],
 
@@ -191,7 +157,8 @@
             charRoom.getByQuery({},'','', function(err, rs){
                 console.log(rs);
                 res.render('room', {
-                    title : 'Room'
+                    title : 'Room',
+                    items : rs
                 });
 
             });

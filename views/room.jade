@@ -1,17 +1,10 @@
 extends layout
 
 block content
-  div.container
+  div.container(ng-controller="roomsControl")
     div.contentpad
       ul.list-group(id="roomLists")
-        li.list-group-item
-          span.badge 14
-          |Cras justo odio
-
-      div.list-group
-        a.list-group-item.active(href='#')
-            | Cras justo odio
-        a.list-group-item(href='#') Dapibus ac facilisis in
-        a.list-group-item(href='#') Morbi leo risus
-        a.list-group-item(href='#') Porta ac consectetur ac
-        a.list-group-item(href='#') Vestibulum at eros
+        each item in items
+          li.list-group-item
+            span.badge #{item.nowNum}
+            |#{item.name}

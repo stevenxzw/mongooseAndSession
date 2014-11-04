@@ -2,7 +2,7 @@ extends layout
 block content
   div.container
     div(ng-controller='loginControl')
-        form.form-horizontal(ng-init='user={username:"test",pwd:"123456"}')
+        form.form-horizontal(ng-init='user={username:"admin",pwd:"123456"}')
             h2.form-signin-heading 管理员登录
             .form-group
                 input#username.form-control(type='text', ng-model='user.username', value='admin', placeholder='username', required='', autofocus='')

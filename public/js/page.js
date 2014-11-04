@@ -41,6 +41,11 @@
         });
 
         })
+
+        .controller('roomsControl', function($scope, $http) {
+
+
+        })
         .controller('loginControl', function($scope, $http) {
             $scope.user = {
                 username : '',

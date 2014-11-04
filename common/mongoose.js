@@ -6,6 +6,7 @@
 
     var mongoose = require('mongoose'),
         Schema = mongoose.Schema,
+        _util = require('./../common/util'),
         conn = require('./../common/conn'),
         commonDao = require('./../Dao/commonDao'),
     //userSchema
@@ -39,9 +40,9 @@
         'usersData' : [{id:1,name :'test', pass : '123456', createTime: +new Date, loginTimes : 0, role: 0}
         ,{id:1,name :'admin', pass : '123456', createTime: +new Date, loginTimes : 0, role: 1}],
 
-        'charRoomData' :  [{id:1,name :'testroom',  createTime: +new Date, members:10,nowNum:1 }],
+        'charRoomData' :  [{id:1,name :'testroom',  createTime:1415115093101, members:10,nowNum:1 }],
 
-        'charRoomData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
+        'charData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
     };
 
 
@@ -89,14 +90,18 @@
 
         //删除所有数据表
         dropAllTable : function(){
-            for(var table in tables)
-                conn.db.drop(table);
+            tables = ['users', 'charRoom', 'char', 'people', 'cats'];
+            var newTable = _util.util.extend([], tables);
+            console.log(tables);
+            //for(var table in newTable)
+                //conn.db
         },
 
-        init : function(){
+        init : function(fn){
             if(tables.length){
                 this.createTable(tables, function(r){
-
+                    console.log('success');
+                    fn && fn();
                 });
             }
         },
@@ -116,6 +121,9 @@
                         console.log('error:'+r);
                     }
                 })
+            }else{
+
+                fn && fn();
             }
 
         }
