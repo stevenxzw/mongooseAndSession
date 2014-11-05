@@ -40,14 +40,14 @@
         'usersData' : [{id:1,name :'test', pass : '123456', createTime: +new Date, loginTimes : 0, role: 0}
         ,{id:1,name :'admin', pass : '123456', createTime: +new Date, loginTimes : 0, role: 1}],
 
-        'charRoomData' :  [{id:1,name :'testroom',  createTime:1415115093101, members:10,nowNum:1 }],
+        'charRoomsData' :  [{id:1,name :'testroom',  createTime:1415115093101, members:10,nowNum:1 }],
 
-        'charData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
+        'charsData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
     };
 
 
 
-    var tables = ['users', 'charRoom', 'char'];
+    var tables = ['users', 'charRooms', 'chars'];
 
     var PersonSchema = new Schema({
         name:String,   //定义一个属性name，类型为String
@@ -72,9 +72,9 @@
     module.exports = {
         users : userSchema,
 
-        charRoom : charRoomSchema,
+        charRooms : charRoomSchema,
 
-        char : charSchema,
+        chars : charSchema,
 
 
         person : PersonSchema,
@@ -110,7 +110,7 @@
 
             if(ts.length){
                 var item = ts.shift(), that = this;
-
+                console.log(item);
                 var dao = this.getDao(item);
 
                 dao.create(tempData[item+'Data'], function(r){

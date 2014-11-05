@@ -2,6 +2,13 @@
  * Created by zhiwen on 14-10-30.
  */
 (function(ang){
+    var host = 'http://127.0.0.1', socket;
+
+    var socketInit = function(){
+        if(typeof io !== 'undefined' && !socket)
+            socket = io.connect(host);
+    }
+
 
     var app = ang.module('app', [], function($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
@@ -40,13 +47,21 @@
             $scope.users = r;
         });
 
-        })
+    }).controller('roomsControl', function($scope, $http) {
+            $scope.items = [];
+            $http.get('/Api/getRoomList').success(function(r){
+                $scope.items = r.raw;
+            });
 
-        .controller('roomsControl', function($scope, $http) {
+            angular.element(window).bind('load', function() {
+                socketInit();
+                socket.on('sendenv', function(p){
+                    console.log(p);
+                });
+                socket.emit('getenv', {});
+            });
 
-
-        })
-        .controller('loginControl', function($scope, $http) {
+    }).controller('loginControl', function($scope, $http) {
             $scope.user = {
                 username : '',
                 pwd : '',

@@ -130,6 +130,8 @@
             console.log(req);
         },
 
+        /*-----------------------API--------------------------*/
+
         '/Api/users' : [false, function(req, res){
             var users = mongoose.getDao('users');
 
@@ -151,8 +153,23 @@
 
         }],
 
+        '/Api/getRoomList' : [true, function(req, res){
+            var charRoom = mongoose.getDao('charRooms');
+
+            charRoom.getByQuery({},'','', function(err, rs){
+
+                res.json(_util.resultCollection(err, '', rs));
+
+            });
+
+        }],
+
         '/room' : [true, function(req, res){
-            var charRoom = mongoose.getDao('charRoom');
+            res.render('room', {
+                title : 'Room'
+            });
+            return;
+            var charRoom = mongoose.getDao('charRooms');
 
             charRoom.getByQuery({},'','', function(err, rs){
                 console.log(rs);

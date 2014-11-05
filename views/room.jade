@@ -4,7 +4,7 @@ block content
   div.container(ng-controller="roomsControl")
     div.contentpad
       ul.list-group(id="roomLists")
-        each item in items
-          li.list-group-item
-            span.badge #{item.nowNum}
-            |#{item.name}
+          li.list-group-item(ng-repeat="item in items")
+            span.badge <% item.nowNum%>
+            |<% item.name%>
+  script(src="/public/js/socket.io.js")
