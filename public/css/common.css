@@ -17,3 +17,7 @@
 .contentpad {
     margin-top: 20px;
 }
+
+.modal-backdrop{
+    z-index: -1;
+}

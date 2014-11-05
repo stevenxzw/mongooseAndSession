@@ -10,7 +10,7 @@
     }
 
 
-    var app = ang.module('app', [], function($interpolateProvider) {
+    var app = ang.module('app', ['DelegateEvents'], function($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     }).filter('vNull', function(){
@@ -60,6 +60,11 @@
                 });
                 socket.emit('getenv', {});
             });
+
+            $scope.itemClick = function(e, item) {
+                e.preventDefault();
+                console.log('itemClick');
+            }
 
     }).controller('loginControl', function($scope, $http) {
             $scope.user = {
