@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div.container(ng-controller="roomsControl")
+  div.container(ng-controller="roomControl")
     div.contentpad
       nav.navbar.navbar-default
         .container-fluid
@@ -14,22 +14,4 @@ block content
             span.badge <% item.nowNum%>
             |<% item.name%>
 
-
-    .modal.fade.in(style="display: block;")
-        .modal-dialog
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true') ×
-                        span.sr-only Close
-                    h4.modal-title 聊天室
-                .modal-body
-                    ul.list-group(id="roomLists" selector="li" ngd-click="itemClick(this)")
-                        li.list-group-item(ng-repeat="item in items")
-                            span.badge <% item.nowNum%>
-                            | <% item.name%>
-                .modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Close
-                    button.btn.btn-primary(type='button') 创建聊天室
-        .modal-backdrop.fade.in
   script(src="/public/js/socket.io.js")

@@ -164,9 +164,9 @@
 
         }],
 
-        '/room' : [true, function(req, res){
-            res.render('room', {
-                title : 'Room'
+        '/roomlist' : [true, function(req, res){
+            res.render('roomlist', {
+                title : 'roomlist'
             });
             return;
             var charRoom = mongoose.getDao('charRooms');
@@ -180,7 +180,25 @@
 
             });
 
-    }]
+        }],
+
+        '/room' : [true, function(req, res){
+            res.render('roomlist', {
+                title : 'roomlist'
+            });
+            return;
+            var charRoom = mongoose.getDao('charRooms');
+
+            charRoom.getByQuery({},'','', function(err, rs){
+                console.log(rs);
+                res.render('room', {
+                    title : 'Room',
+                    items : rs
+                });
+
+            });
+
+        }]
 
 
     }

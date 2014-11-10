@@ -22,6 +22,8 @@
      charRoomSchema = new Schema({
         id : Number,
         name:String,
+       createId : Number,
+        users : Array,
         //createTime : { type: Date, default: Date.now },
          createTime  : { type: Number, default: new Date().getTime()},
          members : Number,
@@ -40,7 +42,7 @@
         'usersData' : [{id:1,name :'test', pass : '123456', createTime: +new Date, loginTimes : 0, role: 0}
         ,{id:1,name :'admin', pass : '123456', createTime: +new Date, loginTimes : 0, role: 1}],
 
-        'charRoomsData' :  [{id:1,name :'testroom',  createTime:1415115093101, members:10,nowNum:1 }],
+        'charRoomsData' :  [{id:1,name :'testroom', users:['1'], createId:1, createTime:1415115093101, members:10,nowNum:1 }],
 
         'charsData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
     };

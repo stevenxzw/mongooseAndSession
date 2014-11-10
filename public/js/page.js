@@ -10,7 +10,7 @@
     }
 
 
-    var app = ang.module('app', ['DelegateEvents'], function($interpolateProvider) {
+    var app = ang.module('app', [], function($interpolateProvider) {
         $interpolateProvider.startSymbol('<%');
         $interpolateProvider.endSymbol('%>');
     }).filter('vNull', function(){
@@ -49,6 +49,8 @@
 
     }).controller('roomsControl', function($scope, $http) {
             $scope.items = [];
+            $scope.roomId = '';
+            $scope.roomsModal = angular.element(document.querySelector('#roomsModal'));
             $http.get('/Api/getRoomList').success(function(r){
                 $scope.items = r.raw;
             });
@@ -61,9 +63,11 @@
                 socket.emit('getenv', {});
             });
 
-            $scope.itemClick = function(e, item) {
-                e.preventDefault();
-                console.log('itemClick');
+            $scope.itemClick = function(e, obj) {
+               if(e.target.tagName.toLocaleLowerCase() === 'li'){
+                    $scope.roomsModal.addClass('hidden');
+                   console.log(obj);
+               }
             }
 
     }).controller('loginControl', function($scope, $http) {
@@ -76,7 +80,7 @@
                 if(u.username && u.pwd){
                     $http.post('/Api/login', u).success(function(r){
                         if(r.err === 0){
-                            location.href = '/room';
+                            location.href = '/roomlist';
                         }
                         $scope.users = r;
 
