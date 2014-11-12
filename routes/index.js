@@ -87,7 +87,8 @@
             items[0].cls = 'active';
             res.render('admin', {
                 title : 'Admin',
-                action : 'admin'
+                action : 'admin',
+                items: items
             });
         }],
 
