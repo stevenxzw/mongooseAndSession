@@ -10,12 +10,12 @@ exports.config = {
 
     db : 'rms',
 
+    getItem : function(items){
+        return _util.deepClone(items);
+    },
+
 
     adminOpt : {
-
-        getItem : function(){
-            return _util.deepClone(this.items);
-        },
 
         items : [{
             cls :'',
@@ -30,6 +30,23 @@ exports.config = {
             name : 'CharRoom',
             uri : '/admin/charRoom'
         }]
+    },
+
+    webOpt : {
+        items : [{
+            cls :'',
+            name : 'Home',
+            uri : '/'
+        },{
+            cls :'',
+            name : 'Room',
+            uri : '/room'
+        },{
+            cls :'',
+            name : 'Option',
+            uri : '/option'
+        }]
+
     }
 
 }

@@ -1,12 +1,11 @@
 extends layout
 
 block content
+  div.blog-masthead
+    div.container
+        nav.blog-nav
+            each item in items
+                a(href='#',class="blog-nav-item #{item.cls}") #{item.name}
   div(ng-controller="MainCtrl")
-    div <%updated%>
-    div(ng-click="test(this,$event)") click
-    form(name="myfrom" action="/from")
-      input(name="tt" value="cc")
-      button(type="submit" name="s") submit
-      form(name="myfrom2" action="/from2")
-        input(name="t" value="c")
+
   //script setTimeout(function(){var end = +new Date - parseInt(#{st});console.log(end/1000);window.location.reload()}, 100000);

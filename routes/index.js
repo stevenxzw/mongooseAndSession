@@ -38,21 +38,7 @@
             });
            res.send('<div>test</div>');
         }],
-		
-		'/' : [false, function(req, res){
-            var persons = mongoose.getDao('person');
-            persons.getByQuery('',{'name':'','age':''},{limit:5,skip:8}, function(err, rs){
-                console.log(rs);
-                res.render('index', {
-                    title : 'session',
-                    session : rs
-                });
-                //persons.getAll(function(err, rs){
-                //res.send(rs);
-                //})
 
-            });
-        }],
 
         '/find' : function(req, res){
             //mongoose.person.methos.speak = function(){};
@@ -83,7 +69,7 @@
 
         /*-------------------管理后台-------------------------------*/
         '/admin' : [false, function(req, res){
-            var items = config.config.adminOpt.getItem();
+            var items = config.config.getItem(config.config.adminOpt.items);
             items[0].cls = 'active';
             res.render('admin', {
                 title : 'Admin',
@@ -103,7 +89,7 @@
 
         '/admin/users' : [false, function(req, res){
             console.time("t");
-            var items = config.config.adminOpt.getItem();
+            var items = config.config.getItem(config.config.adminOpt.items);
             items[1].cls = 'active';
             console.timeEnd("t");
 
@@ -117,7 +103,7 @@
 
         '/admin/charRoom' : [false, function(req, res){
             console.time("t");
-            var items = config.config.adminOpt.getItem();
+            var items = config.config.getItem(config.config.adminOpt.items);
             items[2].cls = 'active';
             console.timeEnd("t");
             res.render('admin', {
@@ -196,9 +182,17 @@
                     title : 'Room',
                     items : rs
                 });
-
             });
 
+        }],
+
+        '/' : [true, function(req, res){
+            var items = config.config.getItem(config.config.webOpt.items);
+            items[0].cls = 'active';
+            res.render('index', {
+                title : 'Home',
+                items : items
+            });
         }]
 
 
