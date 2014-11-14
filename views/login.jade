@@ -1,4 +1,8 @@
-extends layout
+doctype html
+html(ng-app="app")
+    head
+        include header
+        append header
 block content
   div.container(ng-controller='loginControl')
     form.form-horizontal(ng-init='user={username:"admin",pwd:"123456"}')

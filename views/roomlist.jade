@@ -3,31 +3,21 @@ extends layout
 block content
   div.container(ng-controller="roomsControl")
     div.contentpad
-        div.row.row-offcanvas.row-offcanvas-right
-            div.col-xs-12.col-sm-8
-                   |Toggle nav
-                // /row
-            // /.col-xs-12.col-sm-9
-            div#sidebar.col-xs-6.col-sm-3.sidebar-offcanvas(role='navigation')
-                div.list-group
-                    a.list-group-item.active(href='#') Link
+      div.row.row-offcanvas.row-offcanvas-right
+        div.col-xs-12
+            p.pull-right.visible-xs
+                button.btn.btn-primary.btn-xs(type='button', data-toggle='offcanvas') Toggle nav
+            div.jumbotron
+                p
+                    | This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.
+            div.row.room-list
+                div.col-xs-6.col-lg-3.list(ng-repeat="item in items" rel="<% item.id%>" ng-click="itemClick($event, this)")
+                    div.room-title
+                        span.h2 <% item.name%>
+                        span.num-flag (<% item.nowNum%>)
+                    p
+                        | <% item.des%>
+                    p
+                        a.btn.btn-lg.btn-success(href='#') Go »
 
-
-    .modal.fade.in(style="display: block;" id="roomsModal")
-        .modal-dialog
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal')
-                        span(aria-hidden='true' ng-click="closeWin()") ×
-                        span.sr-only Close
-                    h4.modal-title 聊天室
-                .modal-body
-                    ul.list-group(id="roomLists" selector="li" ng-click="itemClick($event, this)")
-                        li.list-group-item(ng-repeat="item in items" rel="<% item.id%>")
-                            span.badge <% item.nowNum%>
-                            | <% item.name%>
-                .modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Close
-                    button.btn.btn-primary(type='button') 创建聊天室
-        .modal-backdrop.fade.in
   script(src="/public/js/socket.io.js")

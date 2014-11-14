@@ -24,7 +24,7 @@
         name:String,
        createId : Number,
         users : Array,
-        //createTime : { type: Date, default: Date.now },
+        des : String,
          createTime  : { type: Number, default: new Date().getTime()},
          members : Number,
          nowNum : Number
@@ -42,7 +42,10 @@
         'usersData' : [{id:1,name :'test', pass : '123456', createTime: +new Date, loginTimes : 0, role: 0}
         ,{id:1,name :'admin', pass : '123456', createTime: +new Date, loginTimes : 0, role: 1}],
 
-        'charRoomsData' :  [{id:1,name :'testroom', users:['1'], createId:1, createTime:1415115093101, members:10,nowNum:1 }],
+        'charRoomsData' :  [{id:1,name :'Sports', users:['1'], createId:1, createTime:1415115093101, members:10,nowNum:1,des:'sports ball...' },
+            {id:2,name :'Game', users:['1'], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'game 三国杀....'  },
+            {id:3,name :'Travel', users:['1'], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'Travel 旅行日记....'  },
+            {id:4,name :'Food', users:['1'], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'Food Meat....'  }],
 
         'charsData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
     };

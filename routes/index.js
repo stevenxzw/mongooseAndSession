@@ -11,7 +11,7 @@
 		conn = require('./../common/conn'),
         sessionObj = require('./../common/session').sessoin,
         mongo = require('mongoose'),
-        config = require('./../config/config');
+        //config = require('./../config/config');
         commonDao = require('./../Dao/commonDao'),
         mongoose = require('./../common/mongoose');
 
@@ -69,8 +69,7 @@
 
         /*-------------------管理后台-------------------------------*/
         '/admin' : [false, function(req, res){
-            var items = config.config.getItem(config.config.adminOpt.items);
-            items[0].cls = 'active';
+            var items = this.config.getMenu('admin', 0);
             res.render('admin', {
                 title : 'Admin',
                 action : 'admin',
@@ -89,7 +88,7 @@
 
         '/admin/users' : [false, function(req, res){
             console.time("t");
-            var items = config.config.getItem(config.config.adminOpt.items);
+            var items = this.config.getMenu(this.config.adminOpt.items);
             items[1].cls = 'active';
             console.timeEnd("t");
 
@@ -102,9 +101,7 @@
         }],
 
         '/admin/charRoom' : [false, function(req, res){
-            console.time("t");
-            var items = config.config.getItem(config.config.adminOpt.items);
-            items[2].cls = 'active';
+            var items = this.config.getMenu('admin', 2);
             console.timeEnd("t");
             res.render('admin', {
                 title : 'Admin',
@@ -152,8 +149,10 @@
         }],
 
         '/roomlist' : [true, function(req, res){
+            var items = this.config.getMenu('front', 1);
             res.render('roomlist', {
-                title : 'roomlist'
+                title : 'roomlist',
+                items : items
             });
             return;
             var charRoom = mongoose.getDao('charRooms');
@@ -170,8 +169,10 @@
         }],
 
         '/room' : [true, function(req, res){
+            var items = this.config.getMenu('front', 1);
             res.render('roomlist', {
-                title : 'roomlist'
+                title : 'roomlist',
+                items : items
             });
             return;
             var charRoom = mongoose.getDao('charRooms');
@@ -187,8 +188,7 @@
         }],
 
         '/' : [true, function(req, res){
-            var items = config.config.getItem(config.config.webOpt.items);
-            items[0].cls = 'active';
+            var items = this.config.getMenu('front', 0);
             res.render('index', {
                 title : 'Home',
                 items : items

@@ -10,8 +10,13 @@ exports.config = {
 
     db : 'rms',
 
-    getItem : function(items){
-        return _util.deepClone(items);
+    getMenu : function(type, index, cs){
+        var items =  type === 'admin' ? this.adminOpt.items : this.webOpt.items;
+        var menu =  _util.deepClone(items);
+        if(index != undefined){
+            menu[index].cls = cs || 'active';
+        }
+        return menu;
     },
 
 

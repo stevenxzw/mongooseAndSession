@@ -4,4 +4,9 @@ html(ng-app="app")
     include header
     append header
   body
+      div.blog-masthead
+          div.container
+              nav.blog-nav
+                  each item in items
+                      a(href='#{item.uri}',class="blog-nav-item #{item.cls}") #{item.name}
     block content

@@ -1,11 +1,6 @@
 extends layout
 
 block content
-  div.blog-masthead
-    div.container
-        nav.blog-nav
-            each item in items
-                a(href='#',class="blog-nav-item #{item.cls}") #{item.name}
   div(ng-controller="MainCtrl")
 
   //script setTimeout(function(){var end = +new Date - parseInt(#{st});console.log(end/1000);window.location.reload()}, 100000);

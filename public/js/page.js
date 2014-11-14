@@ -64,7 +64,7 @@
             });
 
             $scope.itemClick = function(e, obj) {
-               if(e.target.tagName.toLocaleLowerCase() === 'li'){
+               if(e.target.tagName.toLocaleLowerCase() === 'a'){
                     $scope.roomsModal.addClass('hidden');
                    console.log(obj);
                }
