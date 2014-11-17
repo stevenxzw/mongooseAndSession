@@ -42,10 +42,21 @@
         }
 
     }).controller('usersControl', function($scope, $http) {
-        $scope.users = {};
-        $http.get('/Api/users').success(function(r){
-            $scope.users = r;
-        });
+            $scope.users = {};
+            $http.get('/Api/users').success(function(r){
+                $scope.users = r;
+
+            })
+
+    }).controller('roomControl', function($scope, $http) {
+            $scope.users = {};
+            $scope.chars = [];
+
+
+            $http.get( '/Api/getRoomUsers').success(function(r){
+                $scope.users = r.raw;
+            });
+
 
     }).controller('roomsControl', function($scope, $http) {
             $scope.items = [];
@@ -65,8 +76,9 @@
 
             $scope.itemClick = function(e, obj) {
                if(e.target.tagName.toLocaleLowerCase() === 'a'){
-                    $scope.roomsModal.addClass('hidden');
-                   console.log(obj);
+                   e.preventDefault();
+                    //$scope.roomsModal.addClass('hidden');
+                    location.href = '/room/'+ e.target.rel;
                }
             }
 

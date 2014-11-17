@@ -10,14 +10,18 @@ block content
             div.jumbotron
                 p
                     | This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.
+                p
+                    a.btn.btn-lg.btn-primary(href='#') Create »
+
             div.row.room-list
-                div.col-xs-6.col-lg-3.list(ng-repeat="item in items" rel="<% item.id%>" ng-click="itemClick($event, this)")
+                div.col-xs-6.col-lg-4.list(ng-repeat="item in items" rel="<% item.id%>" ng-click="itemClick($event, this)")
+                  div.listbody
                     div.room-title
                         span.h2 <% item.name%>
                         span.num-flag (<% item.nowNum%>)
                     p
                         | <% item.des%>
                     p
-                        a.btn.btn-lg.btn-success(href='#') Go »
+                        a.btn.btn-lg.btn-success(href='#' rel="<% item.id%>" ) Go »
 
   script(src="/public/js/socket.io.js")

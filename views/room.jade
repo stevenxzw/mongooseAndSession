@@ -3,15 +3,16 @@ extends layout
 block content
   div.container(ng-controller="roomControl")
     div.contentpad
-      nav.navbar.navbar-default
-        .container-fluid
-            .navbar-header
-               a.navbar-brand(href='#')
-                 button.btn.btn-default(type='button') Primary
+        div.row.row-offcanvas.row-offcanvas-right
+            div.col-xs-12.col-sm-8
+                button.btn.btn-primary.btn-xs(type='button', data-toggle='offcanvas') Toggle nav
+                    | Toggle nav
+                // /row
+            // /.col-xs-12.col-sm-9
+            div#sidebar.col-xs-6.col-sm-3.sidebar-offcanvas(role='navigation')
+                h3 用户列表
+                div.list-group
+                    a.list-group-item(href='#',ng-repeat="user in users") <% user.name%>
 
-      ul.list-group(id="roomLists")
-          li.list-group-item(ng-repeat="item in items")
-            span.badge <% item.nowNum%>
-            |<% item.name%>
 
   script(src="/public/js/socket.io.js")

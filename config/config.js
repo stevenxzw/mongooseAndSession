@@ -44,8 +44,8 @@ exports.config = {
             uri : '/'
         },{
             cls :'',
-            name : 'Room',
-            uri : '/room'
+            name : 'Roomlist',
+            uri : '/roomlist'
         },{
             cls :'',
             name : 'Option',

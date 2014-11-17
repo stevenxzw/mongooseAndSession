@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "s1": "npm link express jade connect-redis body-parser cookie-parser serve-favicon debug morgan connect session-mongoose serve-static mongoose socket.io gulp-util gulp-concat gulp-watch gulp-connect gulp-livereload gulp-sass cookie-session express-session crypto"
+    "s1": "npm link express jade gulp connect-redis body-parser cookie-parser serve-favicon debug morgan connect session-mongoose serve-static mongoose socket.io gulp-util gulp-concat gulp-watch gulp-connect gulp-livereload gulp-sass cookie-session express-session crypto"
   },
   "dependencies": {
     "express": "~4.9.0",

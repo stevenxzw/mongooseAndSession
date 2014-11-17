@@ -78,11 +78,7 @@
 /*----------    roomlist ---------------------*/
 
 .room-list .list{
-
-  background: #afd9ee;
-  border: dashed 1px;
-  margin-right: 20px;
-  margin-top : 5px;
+  margin-top: 3px;
 
       .h2{
         font-family: inherit;
@@ -101,5 +97,11 @@
         margin-top: 20px;
         margin-bottom: 10px;
 
+      }
+
+      .listbody{
+        margin: 0 1px;
+        background: #afd9ee;
+        padding: 10px;
       }
   }

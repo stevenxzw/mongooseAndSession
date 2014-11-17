@@ -63,10 +63,7 @@
 
 /*----------    roomlist ---------------------*/
 .room-list .list {
-  background: #afd9ee;
-  border: dashed 1px;
-  margin-right: 20px;
-  margin-top: 5px; }
+  margin-top: 3px; }
   .room-list .list .h2 {
     font-family: inherit;
     font-weight: 500;
@@ -78,3 +75,7 @@
   .room-list .list .room-title {
     margin-top: 20px;
     margin-bottom: 10px; }
+  .room-list .list .listbody {
+    margin: 0 1px;
+    background: #afd9ee;
+    padding: 10px; }

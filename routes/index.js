@@ -69,7 +69,7 @@
 
         /*-------------------管理后台-------------------------------*/
         '/admin' : [false, function(req, res){
-            var items = this.config.getMenu('admin', 0);
+            var items = global.config.getMenu('admin', 0);
             res.render('admin', {
                 title : 'Admin',
                 action : 'admin',
@@ -87,11 +87,7 @@
         }],
 
         '/admin/users' : [false, function(req, res){
-            console.time("t");
-            var items = this.config.getMenu(this.config.adminOpt.items);
-            items[1].cls = 'active';
-            console.timeEnd("t");
-
+            var items = global.config.getMenu('admin', 1);
             var users = mongoose.getDao('users');
             res.render('admin/users', {
                 title : 'User',
@@ -101,7 +97,7 @@
         }],
 
         '/admin/charRoom' : [false, function(req, res){
-            var items = this.config.getMenu('admin', 2);
+            var items = global.config.getMenu('admin', 2);
             console.timeEnd("t");
             res.render('admin', {
                 title : 'Admin',
@@ -148,8 +144,22 @@
 
         }],
 
+
+        '/Api/getRoomUsers' : [true, function(req, res){
+            var Users = mongoose.getDao('users');
+
+            Users.getByQuery({},'','', function(err, rs){
+
+                res.json(_util.resultCollection(err, '', rs));
+
+            });
+
+        }],
+
+        /*--------------- API 结束 ------------------------------*/
+
         '/roomlist' : [true, function(req, res){
-            var items = this.config.getMenu('front', 1);
+            var items = global.config.getMenu('front', 1);
             res.render('roomlist', {
                 title : 'roomlist',
                 items : items
@@ -168,11 +178,16 @@
 
         }],
 
-        '/room' : [true, function(req, res){
-            var items = this.config.getMenu('front', 1);
-            res.render('roomlist', {
-                title : 'roomlist',
-                items : items
+        '/room/?:id' : [true, function(req, res){
+            var items = global.config.getMenu('front', 1);
+            var params = _util.getHttpRequestParams(req);
+            params = {e:2,c:1};
+            res.render('room', {
+                title : 'room',
+                items : items,
+                action : '/room',
+                param : params
+
             });
             return;
             var charRoom = mongoose.getDao('charRooms');
@@ -188,7 +203,7 @@
         }],
 
         '/' : [true, function(req, res){
-            var items = this.config.getMenu('front', 0);
+            var items = global.config.getMenu('front', 0);
             res.render('index', {
                 title : 'Home',
                 items : items
