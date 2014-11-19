@@ -147,8 +147,9 @@
 
         '/Api/getRoomUsers' : [true, function(req, res){
             var Users = mongoose.getDao('users');
-
-            Users.getByQuery({},'','', function(err, rs){
+            var param = _util.getHttpRequestParams(req);
+            console.log(param);
+            Users.getByQuery({id:{ $in: param.users }},'','', function(err, rs){
 
                 res.json(_util.resultCollection(err, '', rs));
 
@@ -181,14 +182,23 @@
         '/room/?:id' : [true, function(req, res){
             var items = global.config.getMenu('front', 1);
             var params = _util.getHttpRequestParams(req);
-            params = {e:2,c:1};
-            res.render('room', {
-                title : 'room',
-                items : items,
-                action : '/room',
-                param : params
 
+            var charRoom = mongoose.getDao('charRooms');
+            if(params.id){
+            charRoom.getByQuery({id:params.id},'','', function(err, rs){
+                console.log(rs);
+                res.render('room', {
+                    title : 'room',
+                    items : items,
+                    action : '/room',
+                    content : JSON.stringify({p:params,r:rs})
+                });
             });
+            }else{
+
+                res.send('');
+            }
+
             return;
             var charRoom = mongoose.getDao('charRooms');
 

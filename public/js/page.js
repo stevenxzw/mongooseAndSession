@@ -52,10 +52,30 @@
             $scope.users = {};
             $scope.chars = [];
 
-
-            $http.get( '/Api/getRoomUsers').success(function(r){
+            var _roomContent  = JSON.parse(RMS.config.content).r[0];
+            console.log(_roomContent);
+            $http.post( '/Api/getRoomUsers', {users : _roomContent.users}).success(function(r){
                 $scope.users = r.raw;
             });
+
+
+            angular.element(window).bind('load', function() {
+                socketInit();
+                socket.on('addComment', function(p){
+                    console.log(p);
+                });
+                socket.emit('getenv', {});
+            });
+
+           $scope.comment = function(e, obj) {
+               var content = angular.element(document.getElementById('comment_text')),
+                   text = content.text();
+               if(text){
+                   socket.emit('sendComment', {text : text});
+               }
+
+
+           }
 
 
     }).controller('roomsControl', function($scope, $http) {
@@ -66,13 +86,7 @@
                 $scope.items = r.raw;
             });
 
-            angular.element(window).bind('load', function() {
-                socketInit();
-                socket.on('sendenv', function(p){
-                    console.log(p);
-                });
-                socket.emit('getenv', {});
-            });
+
 
             $scope.itemClick = function(e, obj) {
                if(e.target.tagName.toLocaleLowerCase() === 'a'){

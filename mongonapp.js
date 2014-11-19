@@ -35,7 +35,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(session({secret: 'keyboard cat',
     key : 'mycookie',
-    cookie: {path: '/', maxAge: 1000*60*15, rolling : true  }
+    cookie: {path: '/', maxAge: 1000*60*45, rolling : true  }
 }))
 
 

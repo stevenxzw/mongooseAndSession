@@ -66,6 +66,7 @@
             }
             foreach(_body);
             foreach(_query);
+            foreach(req.params);
             return params;
         },
 

@@ -4,15 +4,29 @@ block content
   div.container(ng-controller="roomControl")
     div.contentpad
         div.row.row-offcanvas.row-offcanvas-right
-            div.col-xs-12.col-sm-8
-                button.btn.btn-primary.btn-xs(type='button', data-toggle='offcanvas') Toggle nav
-                    | Toggle nav
-                // /row
-            // /.col-xs-12.col-sm-9
+            div.col-xs-12.col-sm-9
+                div.panel.panel-primary.rms-message
+                    div.panel-heading
+                        h3.panel-title Message
+                    div.panel-body
+                        div.list-group
+                            div.list-group-item
+                                h4.list-group-item-heading admin :
+                                p.list-group-item-text  test列表组中的每个元素都可以是列表组中的每个元素都可以是任何 HTML 内容，甚至是像下面的带链接的列表组。任何 HTML 内容，甚至是像下面的带链接的列表组。
+                            div.list-group-item
+                                h4.list-group-item-heading admin :
+                                p.list-group-item-text ‘test’
+                        div.comment
+                            textarea.comment-area(id="comment_text") 'tt'
+                            div.comment-actions
+                                button.btn.btn-primary(type='button' ng-click="comment($event, this)") Comment
             div#sidebar.col-xs-6.col-sm-3.sidebar-offcanvas(role='navigation')
-                h3 用户列表
-                div.list-group
-                    a.list-group-item(href='#',ng-repeat="user in users") <% user.name%>
+                div.panel.panel-primary.users-list
+                    div.panel-heading
+                        h3.panel-title Users ( <% users.length%> )
+                    div.panel-body
+                        div.list-group
+                            a.list-group-item(href='#',ng-repeat="user in users") <% $index+1%>. <% user.name%>
 
 
   script(src="/public/js/socket.io.js")
