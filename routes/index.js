@@ -136,7 +136,7 @@
         '/Api/getRoomList' : [true, function(req, res){
             var charRoom = mongoose.getDao('charRooms');
 
-            charRoom.getByQuery({},'','', function(err, rs){
+            charRoom.getByQuery({},{id:1,name :1,users:1, createId:1, createTime:1, members:1,nowNum:1,des:1},'', function(err, rs){
 
                 res.json(_util.resultCollection(err, '', rs));
 

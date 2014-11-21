@@ -23,13 +23,15 @@
         id : Number,
         name:String,
        createId : Number,
-        users : Array,
+         users : Array,
+        chars : Array,
         des : String,
          createTime  : { type: Number, default: new Date().getTime()},
          members : Number,
          nowNum : Number
     }),
 
+        /*
     //charSchema
     charSchema = new Schema({
         users:String,
@@ -37,22 +39,47 @@
         content : String,
         charRoom :Number
     }),
-
+*/
     tempData = {
         'usersData' : [{id:1,name :'test', pass : '123456', createTime: +new Date, loginTimes : 0, role: 0}
-        ,{id:1,name :'admin', pass : '123456', createTime: +new Date, loginTimes : 0, role: 1}],
+        ,{id:2,name :'admin', pass : '123456', createTime: +new Date, loginTimes : 0, role: 1}],
 
-        'charRoomsData' :  [{id:1,name :'Sports', users:['1'], createId:1, createTime:1415115093101, members:10,nowNum:1,des:'sports ball...' },
-            {id:2,name :'Game', users:['1','2'], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'game 三国杀....'  },
-            {id:3,name :'Travel', users:['1','3'], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'Travel 旅行日记....'  },
-            {id:4,name :'Food', users:['1'], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'Food Meat....'  }],
+        'charRoomsData' :  [{id:1,name :'Sports-',chars : [],users:[], createId:1, createTime:1415115093101, members:10,nowNum:1,des:'sports ball...' },
+            {id:2,name :'Game',chars : [
+                {
+                    user : {
+                        userid : 1,
+                        username : 'test'
+                    },
+                    content : 'haha',
+                    createTime: +new Date
+                },
+                {
+                    user : {
+                        userid : 2,
+                        username : 'admin'
+                    },
+                    content : '真的吗?',
+                    createTime: +new Date
+                }
+            ],
+            users : [{
+                userid : 2,
+                username : 'admin'
+            },{
+                userid : 1,
+                username : 'test'
+            }],
+                createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'game 三国杀....'  },
+            {id:3,name :'Travel',chars : [],users:[], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'Travel 旅行日记....'  },
+            {id:4,name :'Food',chars : [],users:[], createId:1, createTime:1415115113101,  members:100,nowNum:1,des:'Food Meat....'  }],
 
         'charsData' :  [{users:1,content :'--rtets',  createTime: +new Date, charRoom:1}]
     };
 
 
 
-    var tables = ['users', 'charRooms', 'chars'];
+    var tables = ['users', 'charRooms'];
 
     var PersonSchema = new Schema({
         name:String,   //定义一个属性name，类型为String
@@ -79,7 +106,7 @@
 
         charRooms : charRoomSchema,
 
-        chars : charSchema,
+//        chars : charSchema,
 
 
         person : PersonSchema,

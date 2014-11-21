@@ -54,10 +54,11 @@
 
             var _roomContent  = JSON.parse(RMS.config.content).r[0];
             console.log(_roomContent);
-            $http.post( '/Api/getRoomUsers', {users : _roomContent.users}).success(function(r){
-                $scope.users = r.raw;
-            });
+            //$http.post( '/Api/getRoomUsers', {users : _roomContent.users}).success(function(r){
+                $scope.users =_roomContent.users;
+            //});
 
+            $scope.chars =_roomContent.chars;
 
             angular.element(window).bind('load', function() {
                 socketInit();

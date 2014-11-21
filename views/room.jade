@@ -10,12 +10,9 @@ block content
                         h3.panel-title Message
                     div.panel-body
                         div.list-group
-                            div.list-group-item
-                                h4.list-group-item-heading admin :
-                                p.list-group-item-text  test列表组中的每个元素都可以是列表组中的每个元素都可以是任何 HTML 内容，甚至是像下面的带链接的列表组。任何 HTML 内容，甚至是像下面的带链接的列表组。
-                            div.list-group-item
-                                h4.list-group-item-heading admin :
-                                p.list-group-item-text ‘test’
+                            div.list-group-item(ng-repeat="char in chars")
+                                h4.list-group-item-heading <% char.user.username%> :
+                                p.list-group-item-text   <% char.content%>
                         div.comment
                             textarea.comment-area(id="comment_text") 'tt'
                             div.comment-actions
@@ -26,7 +23,7 @@ block content
                         h3.panel-title Users ( <% users.length%> )
                     div.panel-body
                         div.list-group
-                            a.list-group-item(href='#',ng-repeat="user in users") <% $index+1%>. <% user.name%>
+                            a.list-group-item(href='#',ng-repeat="user in users") <% $index+1%>. <% user.username%>
 
 
   script(src="/public/js/socket.io.js")
