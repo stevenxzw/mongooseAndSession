@@ -91,6 +91,25 @@
             for(var key in cookies){
                 __res.cookie(key, cookies[key], {maxAge:seconds, path:domain || '/', secure:false, httpOnly:httpOnly?httpOnly:false});
             }
+        },
+
+        updateComment : function(data, fn){
+            var charRoom = mongoose.getDao('charRooms');
+
+            charRoom.update({id:data.rid},{ $addToSet:
+                {'chars':{
+                        content : data.text,
+                        createTime : +new Date,
+                        user : {
+                            username : 'admin',
+                            userid : data.uid
+                        }
+                    }
+                }
+            },'', function(err, rs){
+                console.log(rs);
+                fn && fn(rs);
+            });
         }
     }
 

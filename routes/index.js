@@ -17,6 +17,15 @@
 
 
 
+    global.io.sockets.on('connection', function (socket) {
+        socket.on('sendComment', function(r, fn){
+            impl.updateComment(r, fn);
+            console.log('on-sendComment');
+            //fn('success');
+
+        });
+
+    });
 
     var routes = {
 		'/initDataBase' : function(req, res){
@@ -185,6 +194,7 @@
 
             var charRoom = mongoose.getDao('charRooms');
             if(params.id){
+                params.user_id = _util.getSession(req, 'user_id');
             charRoom.getByQuery({id:params.id},'','', function(err, rs){
                 console.log(rs);
                 res.render('room', {

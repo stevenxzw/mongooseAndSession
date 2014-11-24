@@ -51,13 +51,12 @@
     }).controller('roomControl', function($scope, $http) {
             $scope.users = {};
             $scope.chars = [];
-
-            var _roomContent  = JSON.parse(RMS.config.content).r[0];
+            var config_param = JSON.parse(RMS.config.content);
+            var _roomContent  = config_param.r[0];
             console.log(_roomContent);
             //$http.post( '/Api/getRoomUsers', {users : _roomContent.users}).success(function(r){
                 $scope.users =_roomContent.users;
             //});
-
             $scope.chars =_roomContent.chars;
 
             angular.element(window).bind('load', function() {
@@ -70,9 +69,12 @@
 
            $scope.comment = function(e, obj) {
                var content = angular.element(document.getElementById('comment_text')),
-                   text = content.text();
+                   text = content.val();
                if(text){
-                   socket.emit('sendComment', {text : text});
+                   debugger;
+                   socket.emit('sendComment', {text : text, rid : config_param.p.id, uid : config_param.p.user_id }, function(p){
+                       console.log(p)
+                   });
                }
 
 

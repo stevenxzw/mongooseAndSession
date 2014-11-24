@@ -6,6 +6,11 @@
 
     exports.util = {
 
+      getSession : function(req, name){
+          if(name) return req.session[name];
+          else return req.session;
+      },
+
        result : function(code, msg, rst){
            return {'errno': code, 'err':msg, rst : rst};
        },
