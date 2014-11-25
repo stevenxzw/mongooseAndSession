@@ -14,7 +14,7 @@ block content
                                 h4.list-group-item-heading <% char.user.username%> :
                                 p.list-group-item-text   <% char.content%>
                         div.comment
-                            textarea.comment-area(id="comment_text") 'tt'
+                            textarea.comment-area(id="comment_text")
                             div.comment-actions
                                 button.btn.btn-primary(type='button' ng-click="comment($event, this)") Comment
             div#sidebar.col-xs-6.col-sm-3.sidebar-offcanvas(role='navigation')

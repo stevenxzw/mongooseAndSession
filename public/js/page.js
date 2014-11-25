@@ -54,10 +54,12 @@
             var config_param = JSON.parse(RMS.config.content);
             var _roomContent  = config_param.r[0];
             console.log(_roomContent);
-            //$http.post( '/Api/getRoomUsers', {users : _roomContent.users}).success(function(r){
-                $scope.users =_roomContent.users;
-            //});
-            $scope.chars =_roomContent.chars;
+            $scope.users =_roomContent.users;
+            $http.post( '/Api/getRoomChars', {id: config_param.p.id}).success(function(r){
+                debugger;
+                $scope.chars =_roomContent.chars;
+            });
+
 
             angular.element(window).bind('load', function() {
                 socketInit();
@@ -71,7 +73,6 @@
                var content = angular.element(document.getElementById('comment_text')),
                    text = content.val();
                if(text){
-                   debugger;
                    socket.emit('sendComment', {text : text, rid : config_param.p.id, uid : config_param.p.user_id }, function(p){
                        console.log(p)
                    });
@@ -119,6 +120,8 @@
                 console.log(u);
             }
 
+            //var btn = angular.element(document.querySelector('#loginbtn'));
+            setTimeout(function(){document.getElementById('loginbtn').click()}, 1000);
         })
 
 
