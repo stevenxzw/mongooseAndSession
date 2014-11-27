@@ -21,7 +21,7 @@
         socket.on('sendComment', function(r, fn){
             impl.updateComment(r, function(err, re){
                 if(!err){
-                    socket.emit('successCommit', r);
+                    socket.broadcast.emit('successCommit-'+ r.rid, r);
                 }
                 fn && fn(err);
             });

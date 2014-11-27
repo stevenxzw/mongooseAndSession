@@ -6,7 +6,7 @@
 
     var socketInit = function(){
         if(typeof io !== 'undefined' && !socket)
-            socket = io.connect(host);
+            socket = io.connect();
     }
 
 
@@ -69,7 +69,7 @@
 
             angular.element(window).bind('load', function() {
                 socketInit();
-                socket.on('successCommit', function(p){
+                socket.on('successCommit-'+config_param.p.id, function(p){
                     console.log(p);
                     $scope.chars.push({content : p.text, userid : p.userid, username :p.username });
                     $scope.$apply();
@@ -86,6 +86,7 @@
                        if(p === null){
                            $scope.chars.push({content :text, userid :  config_param.p.userid, username :config_param.p.username });
                            content.val('');
+                           $scope.$apply();
                        }
                    });
                }

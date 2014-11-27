@@ -54,8 +54,9 @@ http.createServer(app).listen(app.get('port'), function(){
 
 
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
 server.listen(app.get('port'));
+var io = require('socket.io').listen(server);
+
 global.io = io;
 io.sockets.on('connection', function (socket) {
     socket.on('getenv', function(){
@@ -75,3 +76,4 @@ myroute.globalRoute(app);
 
 
 //app.listen(3001)
+
