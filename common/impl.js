@@ -19,6 +19,7 @@
                         res.json(_util.resultCollection(err,'', result));
                     }else{
                         if(that.comparePwdMD5(result, user.pwd)){
+                            user.id = row.id;
                             that.setSessin(req, user);
                             that.uploadTable('users',{uid:user.username}, {$set:{'lastTime':+new Date,'logTimes':row['logTimes']+1}},'', function(err){
                                 _debug && console.log('change user login:'+err);
@@ -71,14 +72,15 @@
         },
 
         setSessin : function(req, user){
-            req.session.user_id = user.username || user.weiboId || user.qqId;
+            req.session.username = user.username;
+            req.session.userid = user.id;
             req.session.resetSession = +new Date;
         },
 
         getSession : function(req, key){
-            _debug && console.log(req.session.user_id)
-            if(req.session.user_id && key) return req.session[key];
-            return req.session.user_id || '';
+            _debug && console.log(req.session.userid)
+            if(req.session.userid && key) return req.session[key];
+            return req.session.userid || '';
         },
 
         getCookie : function(__req){
@@ -94,21 +96,17 @@
         },
 
         updateComment : function(data, fn){
-            var charRoom = mongoose.getDao('charRooms');
+            var charRoom = mongoose.getDao('chars');
 
-            charRoom.update({id:data.rid},{ $addToSet:
-                {'chars':{
+            charRoom.create({
                         content : data.text,
-                        createTime : +new Date,
-                        user : {
-                            username : 'admin',
-                            userid : data.uid
-                        }
-                    }
-                }
-            },'', function(err, rs){
+                        charRoom : data.rid,
+                        username : data.username,
+                        userid : data.userid
+
+            }, function(err, rs){
                 console.log(rs);
-                fn && fn(rs);
+                fn && fn(err);
             });
         }
     }

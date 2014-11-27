@@ -19,7 +19,12 @@
 
     global.io.sockets.on('connection', function (socket) {
         socket.on('sendComment', function(r, fn){
-            impl.updateComment(r, fn);
+            impl.updateComment(r, function(err, re){
+                if(!err){
+                    socket.emit('successCommit', r);
+                }
+                fn && fn(err);
+            });
             console.log('on-sendComment');
             //fn('success');
 
@@ -167,10 +172,12 @@
         }],
 
         '/Api/getRoomChars' : [true, function(req, res){
-            var charRooms = mongoose.getDao('charRooms');
+            var chars = mongoose.getDao('chars');
             var param = _util.getHttpRequestParams(req);
             console.log(param);
-            charRooms.getByQuery({id:param.id},{chars :1},{limit : 10, skip:0}, function(err, rs){
+            var find = param.find || {id:param.id},
+                opt = param.opt ||{limit : 1, skip:0} ;
+            chars.getByQuery(find,'',opt, function(err, rs){
 
                 res.json(_util.resultCollection(err, '', rs));
 
@@ -206,15 +213,15 @@
 
             var charRoom = mongoose.getDao('charRooms');
             if(params.id){
-                params.user_id = _util.getSession(req, 'user_id');
-            charRoom.getByQuery({id:params.id},{id:1,name :1,users:1, createId:1, createTime:1, members:1,nowNum:1,des:1},'', function(err, rs){
-                console.log(rs);
-                res.render('room', {
-                    title : 'room',
-                    items : items,
-                    action : '/room',
-                    content : JSON.stringify({p:params,r:rs})
-                });
+                params.userid = _util.getSession(req, 'userid');
+                params.username = _util.getSession(req, 'username');
+                charRoom.getByQuery({id:params.id},{id:1,name :1,users:1, createId:1, createTime:1, members:1,nowNum:1,des:1},'', function(err, rs){
+                    res.render('room', {
+                        title : 'room',
+                        items : items,
+                        action : '/room',
+                        content : JSON.stringify({p:params,r:rs})
+                    });
             });
             }else{
 

@@ -11,7 +11,7 @@ block content
                     div.panel-body
                         div.list-group
                             div.list-group-item(ng-repeat="char in chars")
-                                h4.list-group-item-heading <% char.user.username%> :
+                                h4.list-group-item-heading <% char.username%> :
                                 p.list-group-item-text   <% char.content%>
                         div.comment
                             textarea.comment-area(id="comment_text")

@@ -55,16 +55,24 @@
             var _roomContent  = config_param.r[0];
             console.log(_roomContent);
             $scope.users =_roomContent.users;
-            $http.post( '/Api/getRoomChars', {id: config_param.p.id}).success(function(r){
-                debugger;
-                $scope.chars =_roomContent.chars;
+
+            $http.post( '/Api/getRoomChars', {id: config_param.p.id, find : {
+                charRoom: config_param.p.id
+            }, opt : {
+            limit : 15, skip:0, sort : {createTime : -1}
+            }}).success(function(r){
+                console.log(r.raw);
+                $scope.chars = r.raw;
+                //$scope.apply();
             });
 
 
             angular.element(window).bind('load', function() {
                 socketInit();
-                socket.on('addComment', function(p){
+                socket.on('successCommit', function(p){
                     console.log(p);
+                    $scope.chars.push({content : p.text, userid : p.userid, username :p.username });
+                    $scope.$apply();
                 });
                 socket.emit('getenv', {});
             });
@@ -73,8 +81,12 @@
                var content = angular.element(document.getElementById('comment_text')),
                    text = content.val();
                if(text){
-                   socket.emit('sendComment', {text : text, rid : config_param.p.id, uid : config_param.p.user_id }, function(p){
-                       console.log(p)
+                   socket.emit('sendComment', {text : text, rid : config_param.p.id, userid : config_param.p.userid,
+                       username : config_param.p.username }, function(p){
+                       if(p === null){
+                           $scope.chars.push({content :text, userid :  config_param.p.userid, username :config_param.p.username });
+                           content.val('');
+                       }
                    });
                }
 
