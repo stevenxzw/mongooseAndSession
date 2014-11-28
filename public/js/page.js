@@ -66,14 +66,28 @@
                 //$scope.apply();
             });
 
+            function userOnline(){
+                setInterval(function(){
+                    socket.emit('userOnline', {rid : config_param.p.id,  uid : config_param.p.userid,
+                        username : config_param.p.username}, function(r){
+                    });
+                }, 20000);
+            }
+
+
+
 
             angular.element(window).bind('load', function() {
                 socketInit();
+                userOnline();
                 socket.on('successCommit-'+config_param.p.id, function(p){
                     console.log(p);
                     $scope.chars.push({content : p.text, userid : p.userid, username :p.username });
                     $scope.$apply();
                 });
+                socket.on('userChange', function(users){
+                    console.log(users);
+                })
                 socket.emit('getenv', {});
             });
 

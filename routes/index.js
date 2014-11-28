@@ -13,7 +13,8 @@
         mongo = require('mongoose'),
         //config = require('./../config/config');
         commonDao = require('./../Dao/commonDao'),
-        mongoose = require('./../common/mongoose');
+        mongoose = require('./../common/mongoose'),
+        onlineUser = require('./../common/onlineUser');
 
 
 
@@ -28,6 +29,10 @@
             console.log('on-sendComment');
             //fn('success');
 
+        })
+        //记录用户聊天室状态
+        .on('userOnline', function(user, fn){
+            onlineUser.addUser(user);
         });
 
     });
