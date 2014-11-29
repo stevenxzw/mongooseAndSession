@@ -32,8 +32,14 @@
         })
         //记录用户聊天室状态
         .on('userOnline', function(user, fn){
-            onlineUser.addUser(user);
-        });
+
+            onlineUser.addUser(user, function(user){
+                socket.broadcast.emit('userChange', user);
+            });
+        }).on('getOnlineUser', function(fn){
+                var users = onlineUser.getUsers();
+                fn && fn(users);
+            });
 
     });
 

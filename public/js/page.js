@@ -49,46 +49,75 @@
             })
 
     }).controller('roomControl', function($scope, $http) {
-            $scope.users = {};
+            $scope.users = [];
             $scope.chars = [];
             var config_param = JSON.parse(RMS.config.content);
             var _roomContent  = config_param.r[0];
             console.log(_roomContent);
-            $scope.users =_roomContent.users;
+            //$scope.users =_roomContent.users;
 
             $http.post( '/Api/getRoomChars', {id: config_param.p.id, find : {
                 charRoom: config_param.p.id
             }, opt : {
             limit : 15, skip:0, sort : {createTime : -1}
             }}).success(function(r){
-                console.log(r.raw);
+                //console.log(r.raw);
                 $scope.chars = r.raw;
                 //$scope.apply();
             });
 
-            function userOnline(){
+            function setInterUser(){
                 setInterval(function(){
-                    socket.emit('userOnline', {rid : config_param.p.id,  uid : config_param.p.userid,
-                        username : config_param.p.username}, function(r){
-                    });
-                }, 20000);
+                    userOnline();
+                }, 10000);
+
+            }
+            function userOnline(){
+                socket.emit('userOnline', {rid : config_param.p.id,  uid : config_param.p.userid,
+                    username : config_param.p.username}, function(r){
+                });
+
+            }
+
+            function repeatUsers(users){
+                var newusers = [];
+                for(var k in users){
+                    newusers.push(users[k]);
+                }
+                $scope.users = newusers;
+                $scope.$apply();
+                return newusers;
             }
 
 
+            function getOnlineUser(){
+                socket.emit('getOnlineUser', function(users){
+                    repeatUsers(users);
+                    $scope.$apply();
+
+                });
+            }
 
 
             angular.element(window).bind('load', function() {
                 socketInit();
-                userOnline();
+
                 socket.on('successCommit-'+config_param.p.id, function(p){
-                    console.log(p);
+                    //console.log(p);
                     $scope.chars.push({content : p.text, userid : p.userid, username :p.username });
                     $scope.$apply();
                 });
+
                 socket.on('userChange', function(users){
+                    repeatUsers(users);
+
+                    console.log('userChange');
                     console.log(users);
                 })
                 socket.emit('getenv', {});
+                userOnline();
+                getOnlineUser();
+                setInterUser();
             });
 
            $scope.comment = function(e, obj) {
@@ -148,7 +177,7 @@
             }
 
             //var btn = angular.element(document.querySelector('#loginbtn'));
-            setTimeout(function(){document.getElementById('loginbtn').click()}, 1000);
+            //setTimeout(function(){document.getElementById('loginbtn').click()}, 1000);
         })
 
 

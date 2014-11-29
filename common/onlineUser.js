@@ -4,7 +4,8 @@
  */
 (function(){
 
-    var socket  = global.io.sockets.on('connection', function (st) {
+    var socket ;
+    global.io.sockets.on('connection', function (st) {
         socket = st
     });
     var OnlineUser = {
@@ -15,21 +16,35 @@
 
         users : {},
 
+        getUserKey : function(user){
+            return user.uid+'-'+user.rid;
+        },
+
+        getUsers : function(){
+            return this.users;
+        },
+
         addUser : function(user, fn){
             if(this.isHasUser(user)){
-                this.updateUserTime(user);
+                this.updateUserTime(this.users[this.getUserKey(user)]);
             }else{
-                this.users[user.id+'-'+user.rid] = this.updateUserTime(user);
-                fn && fn('addsuccess');
-                socket.broadcast.emit('userChange', this.users);
+                this.updateUserTime(user);
+                this.users[this.getUserKey(user)] = user;
+                //fn && fn(this.users);
+                //console.log('----------------------------');
+                this.emitUserChange();
                 if(this.invalTimer === null){
                     this.setInterval();
                 }
             }
         },
 
+        emitUserChange : function(){
+            socket.broadcast.emit('userChange', this.users);
+        },
+
         isHasUser : function(user){
-            return this.users[user.id+'-'+user.rid];
+            return this.users[this.getUserKey(user)];
         },
 
         updateUserTime : function(user){
@@ -41,9 +56,11 @@
         },
 
         delUser : function(user){
-            delete this.users[user.id+'-'+user.rid];
+
+            delete this.users[this.getUserKey(user)];
             if(this.isEmpty()) this.clearInterval();
-            socket.broadcast.emit('userChange', this.users);
+            console.log('---------delUser');
+            this.emitUserChange();
         },
 
         setInterval : function(){
@@ -62,12 +79,14 @@
 
 
         repeatUsers : function(){
-            var nowTime = +new Date, that = this;
-            forEach(this.users, function(i, user){
+            var nowTime = +new Date;
+            for(var k in this.users){
+                var user = this.users[k];
                 if(user.lastTime + this.invalTime < nowTime){//20秒内没有通信息
-                    that.delUser(user);
+                    this.delUser(user);
                 }
-            });
+            }
+
         },
 
         isEmpty : function(){
